@@ -1,7 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { getDayLogs, addFoodItems, removeFoodItem, clearDayLogs, getTodayKey, getDailyTotals, getAllLogs } from '../db/foodDb';
+import { getSettings, saveSettings, cleanupOldEntries } from '../db/userSettings';
 
 const AppContext = createContext();
+
+const settings = getSettings();
 
 const initialState = {
   pendingFoodItems: [],
@@ -10,9 +14,12 @@ const initialState = {
   isLoading: false,
   error: null,
   sidebarOpen: false,
+  settingsOpen: false,
   selectedDate: getTodayKey(),
   availableDates: [],
   initialized: false,
+  darkMode: settings.darkMode,
+  settings: settings,
 };
 
 function reducer(state, action) {
@@ -65,6 +72,20 @@ function reducer(state, action) {
       return { ...state, availableDates: action.payload };
     case 'SET_INITIALIZED':
       return { ...state, initialized: true };
+    case 'TOGGLE_DARK_MODE': {
+      const newDark = !state.darkMode;
+      const newSettings = { ...state.settings, darkMode: newDark };
+      saveSettings(newSettings);
+      return { ...state, darkMode: newDark, settings: newSettings };
+    }
+    case 'TOGGLE_SETTINGS':
+      return { ...state, settingsOpen: !state.settingsOpen };
+    case 'CLOSE_SETTINGS':
+      return { ...state, settingsOpen: false };
+    case 'UPDATE_SETTINGS': {
+      saveSettings(action.payload);
+      return { ...state, settings: action.payload, darkMode: action.payload.darkMode };
+    }
     default:
       return state;
   }
@@ -83,9 +104,18 @@ export function AppProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    cleanupOldEntries();
     loadDailyLog();
     dispatch({ type: 'SET_INITIALIZED' });
   }, [loadDailyLog]);
+
+  useEffect(() => {
+    if (state.darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [state.darkMode]);
 
   const sendMessage = useCallback(async (message, imageFile = null) => {
     dispatch({ type: 'SET_LOADING', payload: true });

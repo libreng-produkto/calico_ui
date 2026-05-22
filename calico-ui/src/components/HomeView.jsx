@@ -115,7 +115,7 @@ export default function HomeView() {
   );
 }
 
-function FoodRow({ item, index, servings, onRemove, onServingsChange }) {
+function FoodRow({ item, servings, onRemove, onServingsChange }) {
   return (
     <div className="flex items-center overflow-hidden rounded-xl bg-white shadow-sm">
       <button

@@ -21,14 +21,14 @@ export default function TopSection() {
   };
 
   return (
-    <div className="px-[17%] space-y-3">
+    <div className="mx-auto max-w-2xl px-4 space-y-3">
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Describe your meal..."
-          className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 text-base outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+          className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 text-base outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:border-emerald-500 dark:focus:ring-emerald-900/50"
         />
         <button
           type="submit"
@@ -43,7 +43,7 @@ export default function TopSection() {
         <button
           onClick={() => document.getElementById('camera-input')?.click()}
           disabled={state.isLoading}
-          className="flex items-center justify-center gap-2 rounded-xl bg-emerald-100 py-4 text-base font-medium text-emerald-700 transition hover:bg-emerald-200 disabled:opacity-50"
+          className="flex items-center justify-center gap-2 rounded-xl bg-emerald-100 py-4 text-base font-medium text-emerald-700 transition hover:bg-emerald-200 disabled:opacity-50 dark:bg-emerald-900/40 dark:text-emerald-300 dark:hover:bg-emerald-900/60"
         >
           {state.isLoading ? <Loader2 size={20} className="animate-spin" /> : <Camera size={20} />}
           Take Photo
@@ -57,7 +57,7 @@ export default function TopSection() {
           className="hidden"
         />
 
-        <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-100 py-4 text-base font-medium text-emerald-700 transition hover:bg-emerald-200">
+        <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-100 py-4 text-base font-medium text-emerald-700 transition hover:bg-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:hover:bg-emerald-900/60">
           {state.isLoading ? <Loader2 size={20} className="animate-spin" /> : <ImagePlus size={20} />}
           Gallery
           <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
