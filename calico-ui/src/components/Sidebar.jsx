@@ -1,4 +1,4 @@
-import { X } from 'lucide-react';
+import { X, Settings, History } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { getTodayKey } from '../db/foodDb';
 
@@ -23,7 +23,7 @@ export default function Sidebar() {
   return (
     <>
       {state.sidebarOpen && (
-        <div className="fixed inset-0 z-40 bg-black/20" onClick={() => dispatch({ type: 'CLOSE_SIDEBAR' })} />
+        <div className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm" onClick={() => dispatch({ type: 'CLOSE_SIDEBAR' })} />
       )}
 
       <aside
@@ -32,7 +32,10 @@ export default function Sidebar() {
         }`}
       >
         <div className="flex items-center justify-between border-b border-stone-600 p-4">
-          <span className="text-lg font-bold">History</span>
+          <div className="flex items-center gap-2">
+            <History size={18} />
+            <span className="text-lg font-bold">History</span>
+          </div>
           <button
             onClick={() => dispatch({ type: 'CLOSE_SIDEBAR' })}
             className="rounded-lg p-1 text-stone-300 hover:bg-stone-600 hover:text-white"
@@ -69,6 +72,19 @@ export default function Sidebar() {
             <p className="px-4 py-8 text-center text-sm text-stone-400">No history yet</p>
           )}
         </nav>
+
+        <div className="border-t border-stone-600 p-3">
+          <button
+            onClick={() => {
+              dispatch({ type: 'CLOSE_SIDEBAR' });
+              dispatch({ type: 'TOGGLE_SETTINGS' });
+            }}
+            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-stone-300 transition hover:bg-stone-600 hover:text-white"
+          >
+            <Settings size={18} />
+            <span className="font-medium">Settings</span>
+          </button>
+        </div>
       </aside>
     </>
   );

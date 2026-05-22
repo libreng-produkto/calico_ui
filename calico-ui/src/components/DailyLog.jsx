@@ -2,7 +2,7 @@ import { useApp } from '../context/AppContext';
 import { Flame, Wheat, Beef, Droplets, X, Trash2 } from 'lucide-react';
 
 export default function DailyLog() {
-  const { state, dispatch, deleteLogItem, clearDay, loadDailyLog } = useApp();
+  const { state, dispatch, deleteLogItem, clearDay } = useApp();
 
   if (!state.drawerOpen) return null;
 
